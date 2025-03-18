@@ -112,3 +112,56 @@ ax.set_zlabel('CO2 Emissions', fontsize='xx-large')
 ax.set_title('Multiple Linear Regression of CO2 Emissions', fontsize='xx-large')
 plt.tight_layout()
 plt.show()
+
+# Turning the 3D Plot into something easier to look at and interpret
+plt.scatter(X_train[:,0], y_train,  color='blue')
+plt.plot(X_train[:,0], coef_[0,0] * X_train[:,0] + intercept_[0], '-r')
+plt.xlabel("Engine size")
+plt.ylabel("Emission")
+plt.show()
+
+# Sepearate Plot
+plt.scatter(X_train[:,1], y_train,  color='blue')
+plt.plot(X_train[:,1], coef_[0,1] * X_train[:,1] + intercept_[0], '-r')
+plt.xlabel("FUELCONSUMPTION_COMB_MPG")
+plt.ylabel("Emission")
+plt.show()
+
+# Exercise 1 Determine and print the parameters for the best-fit linear regression line for CO2 emission with respect to engine size.
+X_train_1 = X_train[:,0]
+regressor_1 = linear_model.LinearRegression()
+regressor_1.fit(X_train_1.reshape(-1, 1), y_train)
+coef_1 =  regressor_1.coef_
+intercept_1 = regressor_1.intercept_
+print ('Coefficients: ',coef_1)
+print ('Intercept: ',intercept_1)
+
+# Exercse 2 Produce a scatterplot of CO2 emission against ENGINESIZE and include the best-fit regression line to the training data.  
+plt.scatter(X_train_1, y_train,  color='blue')
+plt.plot(X_train_1, coef_1[0] * X_train_1 + intercept_1, '-r')
+plt.xlabel("Engine Size")
+plt.ylabel("Emission")
+
+# Exercise 3 Generate the same scatterplot and best-fit regression line, but now base the result on the test data set.  Consider how the test result compares to the training result.
+X_test_1 = X_test[:,0]
+plt.scatter(X_test_1, y_test,  color='purple')
+plt.plot(X_test_1, coef_1[0] * X_test_1 + intercept_1, '-r')
+plt.xlabel("Engine size")
+plt.ylabel("CO2 Emission")
+
+# Exercise 4 Repeat the same modeling but use FUELCONSUMPTION_COMB_MPG as the independent variable instead. Display the model coefficients including the intercept.
+X_train_2 = X_train[:,1]
+regressor_2 = linear_model.LinearRegression()
+regressor_2.fit(X_train_2.reshape(-1, 1), y_train)
+coef_2 =  regressor_2.coef_
+intercept_2 = regressor_2.intercept_
+print ('Coefficients: ',coef_2)
+print ('Intercept: ',intercept_2)
+
+# Exercise 5 Generate a scatter plot showing the results as before on the test data.
+# Consider  well the model fits, and what you might be able to do to improve it. We'll revisit this later in the course.
+X_test_2 = X_test[:,1]
+plt.scatter(X_test_2, y_test,  color='blue')
+plt.plot(X_test_2, coef_2[0] * X_test_2 + intercept_2, '-r')
+plt.xlabel("Combined Fuel Consumption (MPG)")
+plt.ylabel("CO2 Emission")

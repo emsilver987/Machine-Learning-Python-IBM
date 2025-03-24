@@ -32,3 +32,24 @@ plt.ylabel('Count')
 plt.title('Category Distribution')
 plt.xticks(rotation=45)  # Rotate labels for better readability if needed
 plt.show()
+
+# Modeling
+y = my_data['Drug']
+X = my_data.drop(['Drug','Drug_num'], axis=1)
+X_trainset, X_testset, y_trainset, y_testset = train_test_split(X, y, test_size=0.3, random_state=32)
+drugTree = DecisionTreeClassifier(criterion="entropy", max_depth = 4)
+drugTree.fit(X_trainset,y_trainset)
+
+# Generate Predicitons - Evaluation
+tree_predictions = drugTree.predict(X_testset)
+print("Decision Trees's Accuracy: ", metrics.accuracy_score(y_testset, tree_predictions))
+
+# Visualize Tree
+plot_tree(drugTree)
+plt.show()
+
+# Exercises
+drugTree = DecisionTreeClassifier(criterion="entropy", max_depth = 3)
+drugTree.fit(X_trainset,y_trainset)
+tree_predictions = drugTree.predict(X_testset)
+print("Decision Trees's Accuracy: ", metrics.accuracy_score(y_testset, tree_predictions))

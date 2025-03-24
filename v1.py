@@ -108,3 +108,83 @@ plt.title("Feature Coefficients in Logistic Regression Churn Model")
 plt.xlabel("Coefficient Value")
 plt.show()
 print(log_loss(y2_test, y2hat_prob))
+
+
+# Exercise 3 - What happens to the log loss value if we add both "callcard" and "wireless" to the input features?
+url3 = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%203/data/ChurnData.csv"
+churn3_df = pd.read_csv(url3)
+churn3_df
+churn3_df = churn3_df[['tenure', 'age', 'address', 'income', 'ed', 'employ', 'equip', 'callcard', 'wireless', 'churn']]
+churn3_df['churn'] = churn3_df['churn'].astype('int')
+churn3_df
+X3 = np.asarray(churn3_df[['tenure', 'age', 'address', 'income', 'ed', 'employ', 'callcard', 'wireless', 'equip']])
+X3[0:5]
+y3 = np.asarray(churn3_df['churn'])
+y3[0:5]
+X3_norm = StandardScaler().fit(X3).transform(X3)
+X3_norm[0:5]
+X3_train, X3_test, y3_train, y3_test = train_test_split( X3_norm, y3, test_size=0.2, random_state=4)
+LR = LogisticRegression().fit(X3_train,y3_train)
+y3hat = LR.predict(X3_test)
+y3hat[:10]
+y3hat_prob = LR.predict_proba(X3_test)
+y3hat_prob[:10]
+coefficients = pd.Series(LR.coef_[0], index=churn3_df.columns[:-1])
+coefficients.sort_values().plot(kind='barh')
+plt.title("Feature Coefficients in Logistic Regression Churn Model")
+plt.xlabel("Coefficient Value")
+plt.show()
+print(log_loss(y3_test, y3hat_prob))
+
+# Exercise 4 - What happens to the log loss if we remove the feature 'equip' from the original set of input features?
+url4 = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%203/data/ChurnData.csv"
+churn4_df = pd.read_csv(url4)
+churn4_df
+churn4_df = churn4_df[['tenure', 'age', 'address', 'income', 'ed', 'employ', 'churn']]
+churn4_df['churn'] = churn4_df['churn'].astype('int')
+churn4_df
+X4 = np.asarray(churn4_df[['tenure', 'age', 'address', 'income', 'ed', 'employ']])
+X4[0:5]
+y4 = np.asarray(churn4_df['churn'])
+y4[0:5]
+X4_norm = StandardScaler().fit(X4).transform(X4)
+X4_norm[0:5]
+X4_train, X4_test, y4_train, y4_test = train_test_split( X4_norm, y4, test_size=0.2, random_state=4)
+LR = LogisticRegression().fit(X4_train,y4_train)
+y4hat = LR.predict(X4_test)
+y4hat[:10]
+y4hat_prob = LR.predict_proba(X4_test)
+y4hat_prob[:10]
+coefficients = pd.Series(LR.coef_[0], index=churn4_df.columns[:-1])
+coefficients.sort_values().plot(kind='barh')
+plt.title("Feature Coefficients in Logistic Regression Churn Model")
+plt.xlabel("Coefficient Value")
+plt.show()
+print(log_loss(y4_test, y4hat_prob))
+
+
+# Exercise 5 - What happens to the log loss if we remove the features 'income' and 'employ' from the original set of input features?
+url5 = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%203/data/ChurnData.csv"
+churn5_df = pd.read_csv(url5)
+churn5_df
+churn5_df = churn5_df[['tenure', 'age', 'address', 'income', 'ed', 'equip', 'churn']]
+churn5_df['churn'] = churn5_df['churn'].astype('int')
+churn5_df
+X5 = np.asarray(churn5_df[['tenure', 'age', 'address', 'income', 'ed', 'equip']])
+X5[0:5]
+y5 = np.asarray(churn5_df['churn'])
+y5[0:5]
+X5_norm = StandardScaler().fit(X5).transform(X5)
+X5_norm[0:5]
+X5_train, X5_test, y5_train, y5_test = train_test_split( X5_norm, y5, test_size=0.2, random_state=4)
+LR = LogisticRegression().fit(X5_train,y5_train)
+y5hat = LR.predict(X5_test)
+y5hat[:10]
+y5hat_prob = LR.predict_proba(X5_test)
+y5hat_prob[:10]
+coefficients = pd.Series(LR.coef_[0], index=churn5_df.columns[:-1])
+coefficients.sort_values().plot(kind='barh')
+plt.title("Feature Coefficients in Logistic Regression Churn Model")
+plt.xlabel("Coefficient Value")
+plt.show()
+print(log_loss(y5_test, y5hat_prob))

@@ -50,3 +50,39 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 w_train = compute_sample_weight('balanced', y_train)
 dt = DecisionTreeClassifier(max_depth=4, random_state=35)
 dt.fit(X_train, y_train, sample_weight=w_train)
+
+# for reproducible output across multiple function calls, set random_state to a given integer value
+svm = LinearSVC(class_weight='balanced', random_state=31, loss="hinge", fit_intercept=False)
+svm.fit(X_train, y_train)
+
+# Evaluate
+y_pred_dt = dt.predict_proba(X_test)[:,1]
+roc_auc_dt = roc_auc_score(y_test, y_pred_dt)
+print('Decision Tree ROC-AUC score : {0:.3f}'.format(roc_auc_dt))
+y_pred_svm = svm.decision_function(X_test)
+roc_auc_svm = roc_auc_score(y_test, y_pred_svm)
+print("SVM ROC-AUC score: {0:.3f}".format(roc_auc_svm))
+
+# Q1 - Currently, we have used all 30 features of the dataset for training the models. Use the `corr()` function to find the top 6 features of the dataset to train the models on. 
+correlation_values = abs(raw_data.corr()['Class']).drop('Class')
+correlation_values = correlation_values.sort_values(ascending=False)[:6]
+
+# Q2 - Using only these 6 features, modify the input variable for training.
+X = data_matrix[:,[3,10,12,14,16,17]]
+
+# Q3 - Execute the Decision Tree model for this modified input variable. How does the value of ROC-AUC metric change?
+X = normalize(X, norm="l1")
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+w_train = compute_sample_weight('balanced', y_train)
+dt = DecisionTreeClassifier(max_depth=4, random_state=35)
+dt.fit(X_train, y_train, sample_weight=w_train)
+y_pred_dt = dt.predict_proba(X_test)[:,1]
+roc_auc_dt = roc_auc_score(y_test, y_pred_dt)
+print('Decision Tree ROC-AUC score : {0:.3f}'.format(roc_auc_dt))
+
+# Q4 - Execute the SVM model for this modified input variable. How does the value of ROC-AUC metric change?
+svm = LinearSVC(class_weight='balanced', random_state=31, loss="hinge", fit_intercept=False)
+svm.fit(X_train, y_train)
+y_pred_svm = svm.decision_function(X_test)
+roc_auc_svm = roc_auc_score(y_test, y_pred_svm)
+print("SVM ROC-AUC score: {0:.3f}".format(roc_auc_svm))

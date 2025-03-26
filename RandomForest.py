@@ -48,3 +48,70 @@ start_time_xgb = time.time()
 y_pred_xgb = xgb.predict(X_test)
 end_time_xgb = time.time()
 xgb_pred_time = end_time_xgb - start_time_xgb
+
+# Exercise 3 - Calulate the MSE and R^2 values for both models
+mse_rf = mean_squared_error(y_test, y_pred_rf)
+mse_xgb = mean_squared_error(y_test, y_pred_xgb)
+r2_rf = r2_score(y_test, y_pred_rf)
+r2_xgb = r2_score(y_test, y_pred_xgb)
+
+# Exercise 4 - Print the MSE and R^2 values for both models
+print(f'Random Forest:  MSE = {mse_rf:.4f}, R^2 = {r2_rf:.4f}')
+print(f'XGBoost:  MSE = {mse_xgb:.4f}, R^2 = {r2_xgb:.4f}')
+
+# Exercise 5 - Print the timings for each model
+print(f'Random Forest:  Training Time = {rf_train_time:.3f} seconds, Testing time = {rf_pred_time:.3f} seconds')
+print(f'XGBoost:  Training Time = {xgb_train_time:.3f} seconds, Testing time = {xgb_pred_time:.3f} seconds')
+
+# Exercise 6. Calculate the standard deviation of the test data
+std_y = np.std(y_test)
+start_time_rf = time.time()
+y_pred_rf = rf.predict(X_test)
+end_time_rf = time.time()
+rf_pred_time = end_time_rf - start_time_rf
+
+# Measure prediciton time for XGBoost
+start_time_xgb = time.time()
+y_pred_xgb = xgb.predict(X_test)
+end_time_xgb = time.time()
+xgb_pred_time = end_time_xgb - start_time_xgb
+
+mse_rf = mean_squared_error(y_test, y_pred_rf)
+mse_xgb = mean_squared_error(y_test, y_pred_xgb)
+r2_rf = r2_score(y_test, y_pred_rf)
+r2_xgb = r2_score(y_test, y_pred_xgb)
+
+print(f'Random Forest:  MSE = {mse_rf:.4f}, R^2 = {r2_rf:.4f}')
+print(f'XGBoost:  MSE = {mse_xgb:.4f}, R^2 = {r2_xgb:.4f}')
+print(f'Random Forest:  Training Time = {rf_train_time:.3f} seconds, Testing time = {rf_pred_time:.3f} seconds')
+print(f'XGBoost:  Training Time = {xgb_train_time:.3f} seconds, Testing time = {xgb_pred_time:.3f} seconds')
+std_y = np.std(y_test)
+
+# Visualize Results
+plt.figure(figsize=(14, 6))
+
+# Random Forest plot
+plt.subplot(1, 2, 1)
+plt.scatter(y_test, y_pred_rf, alpha=0.5, color="blue",ec='k')
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2,label="perfect model")
+plt.plot([y_test.min(), y_test.max()], [y_test.min() + std_y, y_test.max() + std_y], 'r--', lw=1, label="+/-1 Std Dev")
+plt.plot([y_test.min(), y_test.max()], [y_test.min() - std_y, y_test.max() - std_y], 'r--', lw=1, )
+plt.ylim(0,6)
+plt.title("Random Forest Predictions vs Actual")
+plt.xlabel("Actual Values")
+plt.ylabel("Predicted Values")
+plt.legend()
+
+
+# XGBoost plot
+plt.subplot(1, 2, 2)
+plt.scatter(y_test, y_pred_xgb, alpha=0.5, color="orange",ec='k')
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2,label="perfect model")
+plt.plot([y_test.min(), y_test.max()], [y_test.min() + std_y, y_test.max() + std_y], 'r--', lw=1, label="+/-1 Std Dev")
+plt.plot([y_test.min(), y_test.max()], [y_test.min() - std_y, y_test.max() - std_y], 'r--', lw=1, )
+plt.ylim(0,6)
+plt.title("XGBoost Predictions vs Actual")
+plt.xlabel("Actual Values")
+plt.legend()
+plt.tight_layout()
+plt.show()

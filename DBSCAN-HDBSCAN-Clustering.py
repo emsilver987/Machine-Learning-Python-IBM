@@ -78,6 +78,23 @@ url = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/r-maSj
 df = pd.read_csv(url, encoding = "ISO-8859-1")
 df.head()
 
+# Exercise 1 - Explore the table. What do missing values look like in this data set?
+# Strings consisting of two dots '..' indicate missing values. There miight still be empty fields, or NaNs.
+
+# Exercise 2. Display the facility types and their counts.
+df.ODCAF_Facility_Type.value_counts()
+
+# Exercise 3. Filter the data to only include museums.
+df = df[df.ODCAF_Facility_Type == 'museum']
+df.ODCAF_Facility_Type.value_counts()
+
+# Exercise 4.  Select only the Latitude and Longitude features as inputs to our clustering problem.
+df = df[['Latitude', 'Longitude']]
+df.info()
+
+# Exercise 5. We'll need these coordinates to be floats, not objects.
+df = df[df.Latitude!='..']
+df[['Latitude','Longitude']] = df[['Latitude','Longitude']].astype('float')
 
 
-pip install hdbscan
+# pip install hdbscan

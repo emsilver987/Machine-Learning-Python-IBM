@@ -119,5 +119,3 @@ df['Cluster'].value_counts()
 
 # Exercise 7. Plot the hierarchically clustered museums on a basemap of Canada, colored by cluster label.
 plot_clustered_locations(df, title='Museums Hierarchically Clustered by Proximity')
-
-# pip install hdbscan

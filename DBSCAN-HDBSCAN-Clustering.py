@@ -96,5 +96,28 @@ df.info()
 df = df[df.Latitude!='..']
 df[['Latitude','Longitude']] = df[['Latitude','Longitude']].astype('float')
 
+# In this case we know how to scale the coordinates. Using standardization would be an error becaues we aren't using the full range of the lat/lng coordinates.
+# Since latitude has a range of +/- 90 degrees and longitude ranges from 0 to 360 degrees, the correct scaling is to double the longitude coordinates (or half the Latitudes)
+coords_scaled = df.copy()
+coords_scaled["Latitude"] = 2*coords_scaled["Latitude"]
+min_samples=3 # minimum number of samples needed to form a neighbourhood
+eps=1.0 # neighbourhood search radius
+metric='euclidean' # distance measure 
+dbscan = DBSCAN(eps=eps, min_samples=min_samples, metric=metric).fit(coords_scaled)
+df['Cluster'] = dbscan.fit_predict(coords_scaled)  # Assign the cluster labels
+df['Cluster'].value_counts()
+plot_clustered_locations(df, title='Museums Clustered by Proximity')
+
+# Build an HDBSCAN Clustering Model
+min_samples=None
+min_cluster_size=3
+hdb = hdbscan.HDBSCAN(min_samples=min_samples, min_cluster_size=min_cluster_size, metric='euclidean')  # You can adjust parameters as needed
+
+# Exercise 6. Assign the cluster labels to your unscaled coordinate dataframe and display the counts of each cluster label.
+df['Cluster'] = hdb.fit_predict(coords_scaled)  # Another way to assign the labels
+df['Cluster'].value_counts()
+
+# Exercise 7. Plot the hierarchically clustered museums on a basemap of Canada, colored by cluster label.
+plot_clustered_locations(df, title='Museums Hierarchically Clustered by Proximity')
 
 # pip install hdbscan

@@ -32,7 +32,7 @@ print(y.value_counts())
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 # Detect Numerical and categorical columns 
-umerical_features = X_train.select_dtypes(include=['number']).columns.tolist()
+numerical_features = X_train.select_dtypes(include=['number']).columns.tolist()
 categorical_features = X_train.select_dtypes(include=['object', 'category']).columns.tolist()
 
 # Pipline for numerical transformer
@@ -92,3 +92,30 @@ plt.ylabel('Actual')
 # Show the plot
 plt.tight_layout()
 plt.show()
+
+model.best_estimator_['preprocessor'].named_transformers_['cat'].named_steps['onehot'].get_feature_names_out(categorical_features)
+
+feature_importances = model.best_estimator_['classifier'].feature_importances_
+
+# Combine the numerical and one-hot encoded categorical feature names
+feature_names = numerical_features + list(model.best_estimator_['preprocessor']
+                                        .named_transformers_['cat']
+                                        .named_steps['onehot']
+                                        .get_feature_names_out(categorical_features))
+
+# Feature Importance bar plot
+importance_df = pd.DataFrame({'Feature': feature_names,
+                              'Importance': feature_importances
+                             }).sort_values(by='Importance', ascending=False)
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.barh(importance_df['Feature'], importance_df['Importance'], color='skyblue')
+plt.gca().invert_yaxis() 
+plt.title('Most Important Features in predicting whether a passenger survived')
+plt.xlabel('Importance Score')
+plt.show()
+
+# Print test score 
+test_score = model.score(X_test, y_test)
+print(f"\nTest set accuracy: {test_score:.2%}")

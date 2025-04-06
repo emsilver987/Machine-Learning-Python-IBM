@@ -6,6 +6,7 @@ Welcome to my personal repository for the [Machine Learning with Python](https:/
 
 - [Overview](#overview)
 - [Course Modules](#course-modules)
+- [Final Project](#final-project)
 - [What I've Learned](#what-ive-learned)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -40,6 +41,27 @@ The course is divided into several modules, and here’s a quick overview of eac
 
 Each module is organized in its own folder within this repository.
 
+## Final Project
+
+As a capstone project for this course, I built a machine learning pipeline to predict whether it will rain today in Melbourne, Australia, using historical weather data. Here's a high-level summary of what I implemented:
+
+- **Data Source:**  
+  Weather data from multiple Melbourne locations, cleaned and filtered for relevant entries.
+
+- **Feature Engineering:**  
+  Mapped dates to seasons, renamed columns for clarity, and separated numerical and categorical features.
+
+- **Preprocessing Pipeline:**  
+  Used `ColumnTransformer` to scale numeric features and one-hot encode categorical ones. Handled unknown categories and ensured the pipeline could be reused for both training and inference.
+
+- **Model Training & Tuning:**  
+  Built and tuned a `RandomForestClassifier` and `LogisticRegression` using `GridSearchCV` with 5-fold cross-validation and stratified splits. Optimized for accuracy and balanced class weights due to class imbalance.
+
+- **Evaluation:**  
+  Reported accuracy, precision, recall, and F1-score. Displayed confusion matrices using both `matplotlib` and `seaborn` for visual analysis. Identified top contributing features to model predictions using feature importance scores.
+
+This project gave me valuable hands-on experience in handling imbalanced classification problems, designing preprocessing workflows, evaluating multiple models, and visualizing performance.
+
 ## What I've Learned
 
 So far, the course has helped me:
@@ -48,6 +70,7 @@ So far, the course has helped me:
 - Learn the importance of data cleaning and preparation before model training.
 - Build, evaluate, and fine-tune predictive models.
 - Appreciate the role of both supervised and unsupervised learning in solving different types of problems.
+- Build end-to-end pipelines for real-world classification tasks.
 
 This journey has laid a strong foundation for my continued exploration of machine learning.
 
@@ -61,6 +84,7 @@ Before diving into this course, it's helpful to have:
 ## Installation
 
 To set up your environment, follow these steps:
+
 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/emsilver987/Python-IBM-Project

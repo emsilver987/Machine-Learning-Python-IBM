@@ -87,3 +87,29 @@ param_grid = {
     'classifier__min_samples_split': [2, 5]
 }
 
+cv = StratifiedKFold(n_splits=5, shuffle=True)
+
+## Exercise 9. Instantiate and fit GridSearchCV to the pipeline
+grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring='accuracy', verbose=2)  
+grid_search.fit(X_train, y_train)
+
+print("\nBest parameters found: ", grid_search.best_params_)
+print("Best cross-validation score: {:.2f}".format(grid_search.best_score_))
+
+# Exercise 10. Display your model's estimated score
+test_score = grid_search.score(X_test, y_test)  
+print("Test set score: {:.2f}".format(test_score))
+
+## Exercise 11. Get the model predictions from the grid search estimator on the unseen data
+y_pred = grid_search.predict(X_test)
+
+## Exercise 12. Print the classification report
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+
+# Exercise 13. Plot the confusion matrix 
+conf_matrix = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix)
+disp.plot(cmap='Blues')
+plt.title('Confusion Matrix')
+plt.show()

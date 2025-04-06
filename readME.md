@@ -88,3 +88,16 @@ To set up your environment, follow these steps:
 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/emsilver987/Python-IBM-Project
+   cd Python-IBM-Project
+   ```
+
+2. **(Optional but recommended) Create a virtual environment:**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate        # On Windows use: venv\Scripts\activate
+   ```
+
+3. **Install the required packages:**
+   ```bash
+   pip install -r requirements.txt
+   ```

@@ -87,7 +87,7 @@ To set up your environment, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/emsilver987/Python-IBM-Project
+   git clone https://github.com/emsilver987/Machine-Learning-Python-IBM
    cd Python-IBM-Project
    ```
 

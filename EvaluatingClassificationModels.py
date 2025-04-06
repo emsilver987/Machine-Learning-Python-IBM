@@ -123,3 +123,40 @@ plt.show()
 # False negative predition would be worst -- because we tell someoene they don't have cancer when they do
 
 # Exercise 3. What can you say to compare the overall performances of the two models?
+# When talking about false positives SVM has 2 false positons whilst KNN has 7 false positives -- with a data set of 171 this is a large difference
+# SVM>KNN for percision, recall, and F1
+# SVM also has a total of 5 misclassificaiton while KNN has 11 which is a large difference -- so based on these numbers it seems SVM may be the direction we go in
+
+## Exercise 4. Obtain the prediction results using the training data.
+y_pred_train_knn = knn.predict(X_train)
+y_pred_train_svm = svm.predict(X_train)
+
+# Evaluate the models on the training data
+print(f"KNN Training Accuracy: {accuracy_score(y_train, y_pred_train_knn):.3f}")
+print(f"SVM Training Accuracy: {accuracy_score(y_train, y_pred_train_svm):.3f}")
+
+print("\nKNN Training Classification Report:")
+print(classification_report(y_train, y_pred_train_knn))
+
+print("\nSVM Training Classification Report:")
+print(classification_report(y_train, y_pred_train_svm))
+
+# Exercise 5 - Plot the confusion matrices for the training data
+conf_matrix_knn = confusion_matrix(y_train, y_pred_train_knn)
+conf_matrix_svm = confusion_matrix(y_train, y_pred_train_svm)
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.heatmap(conf_matrix_knn, annot=True, cmap='Blues', fmt='d', ax=axes[0],
+            xticklabels=labels, yticklabels=labels)
+axes[0].set_title('KNN Training Confusion Matrix')
+axes[0].set_xlabel('Predicted')
+axes[0].set_ylabel('Actual')
+sns.heatmap(conf_matrix_svm, annot=True, cmap='Blues', fmt='d', ax=axes[1],
+            xticklabels=labels, yticklabels=labels)
+axes[1].set_title('SVM Training Confusion Matrix')
+axes[1].set_xlabel('Predicted')
+axes[1].set_ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+# Exercise 6. Compare training and testing accuracies for both models
+# 

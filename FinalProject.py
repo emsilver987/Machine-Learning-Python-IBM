@@ -113,3 +113,60 @@ disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix)
 disp.plot(cmap='Blues')
 plt.title('Confusion Matrix')
 plt.show()
+
+## Exercise 14. Extract the feature importances
+feature_importances = grid_search.best_estimator_['classifier'].feature_importances_
+
+
+# Combine numeric and categorical feature names
+feature_names = numeric_features + list(grid_search.best_estimator_['preprocessor']
+                                        .named_transformers_['cat']
+                                        .named_steps['onehot']
+                                        .get_feature_names_out(categorical_features))
+
+feature_importances = grid_search.best_estimator_['classifier'].feature_importances_
+
+N = 20  # Change this number to display more or fewer features
+
+importance_df = pd.DataFrame({'Feature': feature_names,
+                              'Importance': feature_importances
+                             }).sort_values(by='Importance', ascending=False)
+
+top_features = importance_df.head(N)
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.barh(top_features['Feature'], top_features['Importance'], color='skyblue')
+plt.gca().invert_yaxis()  # Invert y-axis to show the most important feature on top
+plt.title(f'Top {N} Most Important Features in predicting whether it will rain today')
+plt.xlabel('Importance Score')
+plt.show()
+
+## Exercise 15. Update the pipeline and the parameter grid
+pipeline.set_params(classifier=LogisticRegression(random_state=42))
+grid_search.estimator = pipeline
+param_grid = {
+    'classifier__solver': ['liblinear'],
+    'classifier__penalty': ['l1', 'l2'],
+    'classifier__class_weight': [None, 'balanced']
+}
+grid_search.param_grid = param_grid
+model = grid_search.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print(classification_report(y_test, y_pred))
+
+# Generate the confusion matrix 
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+plt.figure()
+sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='d')
+
+# Set the title and labels
+plt.title('Titanic Classification Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+
+# Show the plot
+plt.tight_layout()
+plt.show()

@@ -101,3 +101,6 @@ To set up your environment, follow these steps:
    ```bash
    pip install -r requirements.txt
    ```
+   
+## Contact
+If you'd like to learn more about the project or have any feedback, feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/ethan-silverthorne/) or reach out via email esilvert@purdue.edu
